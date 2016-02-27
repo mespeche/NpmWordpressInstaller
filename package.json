@@ -1,0 +1,19 @@
+{
+  "name": "NPM-Wordpress-Installer",
+  "version": "1.0.0",
+  "description": "Use NPM & WP Cli to easy install your Wordpress website",
+  "keywords": [
+    "npm",
+    "wordpress",
+    "node",
+    "cli",
+    "install"
+  ],
+  "author": "Michaël Espeche : @michaelespeche",
+  "dependencies": {
+    "wp-cli": "0.0.5",
+    "prompt": "~1.0.0",
+    "mkdirp": "~0.5.1",
+    "colors": "~1.1.2"
+  }
+}
