@@ -9,6 +9,7 @@ NpmWordpressInstaller is a simple Wordpress installer using nodejs & npm.
 * Generate wp-config.php file
 * Create database
 * Install clean Wordpress
+* Create admin account
 
 ## How to use it ?
 NpmWordpressInstaller require nodejs & npm.
