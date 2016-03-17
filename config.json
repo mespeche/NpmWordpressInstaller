@@ -1,0 +1,75 @@
+{
+  "initVars": {
+    "properties": {
+      "directory": {
+        "message": "Where do you want to install your new Wordpress project ?",
+        "required": true,
+        "default": "wordpress"
+      },
+      "locale": {
+        "message": "Select which language you want to download",
+        "require": true,
+        "default": "en_US"
+      }
+    }
+  },
+
+  "configVars" : {
+    "properties": {
+      "dbname" : {
+        "message": "Database",
+        "required": true,
+        "default": "wordpress"
+      },
+      "dbuser" : {
+        "message": "User",
+        "required": true,
+        "default": "root"
+      },
+      "dbpass" : {
+        "message": "Password",
+        "hidden": true,
+        "replace": "*"
+      },
+      "dbhost": {
+        "message": "Host",
+        "required": true,
+        "default": "localhost"
+      },
+      "dbprefix": {
+        "message": "Prefix"
+      },
+      "dbcharset" : {
+        "message": "Charset",
+        "default": "utf8"
+      }
+    }
+  },
+
+  "installVars" : {
+    "properties" : {
+      "url" : {
+        "message": "Your website url",
+        "required": true
+      },
+      "title" : {
+        "message": "Your website title",
+        "required": true
+      },
+      "admin_user" : {
+        "message": "Your admin username",
+        "required": true
+      },
+      "admin_password" : {
+        "message": "Your admin password",
+        "required": true,
+        "hidden": true,
+        "replace": "*"
+      },
+      "admin_email" : {
+        "message": "Your admin email address",
+        "required": true
+      }
+    }
+  }
+}
