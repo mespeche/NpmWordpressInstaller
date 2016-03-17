@@ -10,6 +10,9 @@
     "install"
   ],
   "author": "Michaël Espeche : @michaelespeche",
+  "contributors": [{
+    name: "Axel Viger : https://github.com/axelviger"
+  }],
   "dependencies": {
     "wp-cli": "0.0.5",
     "prompt": "~1.0.0",
