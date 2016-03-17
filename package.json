@@ -11,7 +11,7 @@
   ],
   "author": "Michaël Espeche : @michaelespeche",
   "contributors": [{
-    name: "Axel Viger : https://github.com/axelviger"
+    "name": "Axel Viger : https://github.com/axelviger"
   }],
   "dependencies": {
     "wp-cli": "0.0.5",
