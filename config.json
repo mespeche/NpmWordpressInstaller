@@ -3,13 +3,13 @@
     {
       "type" : "input",
       "name" : "directory",
-      "message" : "Where do you want to install your new Wordpress project ?",
+      "message" : "Where do you want to install your new Wordpress project ? :",
       "default" : "wordpress"
     },
     {
       "type" : "input",
       "name" : "locale",
-      "message" : "Select which language you want to download",
+      "message" : "Select which language you want to download :",
       "default" : "en_US"
     }
   ],
@@ -18,35 +18,35 @@
     {
       "type" : "input",
       "name" : "dbname",
-      "message" : "Database",
+      "message" : "Database :",
       "default" : "wordpress"
     },
     {
       "type" : "input",
       "name" : "dbuser",
-      "message" : "User",
+      "message" : "User :",
       "default" : "root"
     },
     {
       "type" : "password",
       "name" : "dbpass",
-      "message" : "Password"
+      "message" : "Password :"
     },
     {
       "type" : "input",
       "name" : "dbhost",
-      "message" : "Host",
+      "message" : "Host :",
       "default" : "localhost"
     },
     {
       "type" : "input",
       "name" : "dbprefix",
-      "message" : "Prefix"
+      "message" : "Prefix :"
     },
     {
       "type" : "input",
       "name" : "dbcharset",
-      "message" : "Charset",
+      "message" : "Charset :",
       "default" : "utf8"
     }
   ],
@@ -55,27 +55,27 @@
     {
       "type" : "input",
       "name" : "url",
-      "message" : "Your website url"
+      "message" : "Your website url :"
     },
     {
       "type" : "input",
       "name" : "title",
-      "message" : "Your website title"
+      "message" : "Your website title :"
     },
     {
       "type" : "input",
       "name" : "admin_user",
-      "message" : "Your admin username"
+      "message" : "Your admin username :"
     },
     {
       "type" : "password",
       "name" : "admin_password",
-      "message" : "Your admin password"
+      "message" : "Your admin password :"
     },
     {
       "type" : "input",
       "name" : "admin_email",
-      "message" : "Your admin email address"      
+      "message" : "Your admin email address :"      
     }
   ]
 }
