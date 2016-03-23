@@ -1,10 +1,9 @@
-var config  = require('./config.json'),
-    Class   = require('js-class'),
-    colors  = require('colors/safe'),
-    mkdirp  = require('mkdirp'),
-    WP      = require('wp-cli');
-
-
+var config    = require('./config.json'),
+    Class     = require('js-class'),
+    inquirer  = require('inquirer'),
+    colors    = require('colors/safe'),
+    mkdirp    = require('mkdirp'),
+    WP        = require('wp-cli');
 
 var WPInstaller = Class({
 
@@ -13,9 +12,6 @@ var WPInstaller = Class({
   * @var config Application configuration stored in json file
   */
   constructor: function (config) {
-    prompt.start();
-    prompt.message = '';
-
     this.config = config;
     this.wp = null;
 
@@ -38,12 +34,8 @@ var WPInstaller = Class({
   init: function() {
     var self = this;
 
-    prompt.get(self.getConfig('initVars'), function (err, result) {
-      if (err) {
-        self.alert('error', err);
-      } else {
-        self.createFolder(result);
-      }
+    inquirer.prompt(self.getConfig('initVars'), function(answers){
+      self.createFolder(answers);
     });
   },
 
@@ -51,19 +43,19 @@ var WPInstaller = Class({
   * Create the new project folder & call WP download
   * @var result Result of prompt answers
   */
-  createFolder: function(result) {
+  createFolder: function(answers) {
     var self = this;
 
-    mkdirp(result.directory, function (err) {
+    mkdirp(answers.directory, function (err) {
       if (err) {
         self.alert('error', err);
       }
       else {
-        self.alert('success', 'Directory ' + result.directory + ' successfully created.');
+        self.alert('success', 'Directory ' + answers.directory + ' successfully created.');
 
-        WP.discover({ path: result.directory },function(WP){
+        WP.discover({ path: answers.directory },function(WP){
           self.setWP(WP);
-          self.download(result);
+          self.download(answers);
         });
       }
     });
@@ -73,18 +65,18 @@ var WPInstaller = Class({
   * Download the WP package
   * @var options Result of prompt answers
   */
-  download: function(options) {
+  download: function(answers) {
     var self = this;
 
-    this.getWP().core.download({ path: options.directory, locale: options.locale }, function(err, info){
+    this.getWP().core.download({ path: answers.directory, locale: answers.locale }, function(err, info){
       if (err) {
         self.alert('error', err);
       } else {
         self.alert('success', info);
         self.alert('info', 'Now lets set up your Wordpress environment.');
 
-        prompt.get(self.getConfig('configVars'), function(err, result){
-          self.configure(result);
+        inquirer.prompt(self.getConfig('configVars'), function(answers){
+          self.configure(answers);
         });
       }
     });
@@ -94,10 +86,10 @@ var WPInstaller = Class({
   * Create the wp-config.php file
   * @var options Result of prompt answers
   */
-  configure: function(options) {
+  configure: function(answers) {
     var self = this;
 
-    this.getWP().core.config(options, function(err, info){
+    this.getWP().core.config(answers, function(err, info){
       if (err) {
         self.alert('error', err);
       } else {
@@ -122,8 +114,8 @@ var WPInstaller = Class({
 
         self.alert('info', 'Last step, create your admin account.');
 
-        prompt.get(self.getConfig('installVars'), function(err, result){
-          self.install(result);
+        inquirer.prompt(self.getConfig('installVars'), function(answers){
+          self.install(answers);
         });
       }
     });
@@ -133,10 +125,10 @@ var WPInstaller = Class({
   * Create the admin account
   * @var options Result of prompt answers
   */
-  install: function(options) {
+  install: function(answers) {
     var self = this;
 
-    this.getWP().core.install(options, function(err, info){
+    this.getWP().core.install(answers, function(err, info){
       if (err) {
         self.alert('error', err);
       } else {
@@ -186,4 +178,4 @@ var WPInstaller = Class({
   }
 });
 
-//var app = new WPInstaller(config);
+var app = new WPInstaller(config);
