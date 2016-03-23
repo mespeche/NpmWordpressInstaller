@@ -1,75 +1,81 @@
 {
-  "initVars": {
-    "properties": {
-      "directory": {
-        "message": "Where do you want to install your new Wordpress project ?",
-        "required": true,
-        "default": "wordpress"
-      },
-      "locale": {
-        "message": "Select which language you want to download",
-        "require": true,
-        "default": "en_US"
-      }
+  "initVars": [
+    {
+      "type" : "input",
+      "name" : "directory",
+      "message" : "Where do you want to install your new Wordpress project ? :",
+      "default" : "wordpress"
+    },
+    {
+      "type" : "input",
+      "name" : "locale",
+      "message" : "Select which language you want to download :",
+      "default" : "en_US"
     }
-  },
+  ],
 
-  "configVars" : {
-    "properties": {
-      "dbname" : {
-        "message": "Database",
-        "required": true,
-        "default": "wordpress"
-      },
-      "dbuser" : {
-        "message": "User",
-        "required": true,
-        "default": "root"
-      },
-      "dbpass" : {
-        "message": "Password",
-        "hidden": true,
-        "replace": "*"
-      },
-      "dbhost": {
-        "message": "Host",
-        "required": true,
-        "default": "localhost"
-      },
-      "dbprefix": {
-        "message": "Prefix"
-      },
-      "dbcharset" : {
-        "message": "Charset",
-        "default": "utf8"
-      }
+  "configVars" : [
+    {
+      "type" : "input",
+      "name" : "dbname",
+      "message" : "Database :",
+      "default" : "wordpress"
+    },
+    {
+      "type" : "input",
+      "name" : "dbuser",
+      "message" : "User :",
+      "default" : "root"
+    },
+    {
+      "type" : "password",
+      "name" : "dbpass",
+      "message" : "Password :"
+    },
+    {
+      "type" : "input",
+      "name" : "dbhost",
+      "message" : "Host :",
+      "default" : "localhost"
+    },
+    {
+      "type" : "input",
+      "name" : "dbprefix",
+      "message" : "Prefix :"
+    },
+    {
+      "type" : "input",
+      "name" : "dbcharset",
+      "message" : "Charset :",
+      "default" : "utf8"
     }
-  },
+  ],
 
-  "installVars" : {
-    "properties" : {
-      "url" : {
-        "message": "Your website url",
-        "required": true
-      },
-      "title" : {
-        "message": "Your website title",
-        "required": true
-      },
-      "admin_user" : {
-        "message": "Your admin username",
-        "required": true
-      },
-      "admin_password" : {
-        "message": "Your admin password",
-        "required": true,
-        "hidden": true,
-        "replace": "*"
-      },
-      "admin_email" : {
-        "message": "Your admin email address",
-        "required": true
-      }
+  "installVars" : [
+    {
+      "type" : "input",
+      "name" : "url",
+      "message" : "Your website url :"
+    },
+    {
+      "type" : "input",
+      "name" : "title",
+      "message" : "Your website title :"
+    },
+    {
+      "type" : "input",
+      "name" : "admin_user",
+      "message" : "Your admin username :"
+    },
+    {
+      "type" : "password",
+      "name" : "admin_password",
+      "message" : "Your admin password :"
+    },
+    {
+      "type" : "input",
+      "name" : "admin_email",
+      "message" : "Your admin email address :"      
     }
-  }
+  ]
 }
