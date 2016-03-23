@@ -1,4 +1,5 @@
 var config    = require('./config.json'),
+    _         = require('underscore'),
     Class     = require('js-class'),
     inquirer  = require('inquirer'),
     colors    = require('colors/safe'),
@@ -15,8 +16,10 @@ var WPInstaller = Class({
     this.config = config;
     this.wp = null;
 
-    this.welcome();
-    this.init();
+    //this.welcome();
+    //this.init();
+
+    this.selectPlugins();
   },
 
   /**
@@ -145,6 +148,16 @@ var WPInstaller = Class({
     });
   },
 
+  selectPlugins: function() {
+    var self = this;
+
+    inquirer.prompt(self.getConfig('installPluginsList'), function(answers){
+      _.each(answers.pluginsList, function(){
+        
+      });
+    });
+  },
+
   /**
   * Set the wordpress instance inside var
   * @var wp Wordpress instance
@@ -186,4 +199,4 @@ var WPInstaller = Class({
   }
 });
 
-//var app = new WPInstaller(config);
+var app = new WPInstaller(config);
