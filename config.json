@@ -75,7 +75,15 @@
     {
       "type" : "input",
       "name" : "admin_email",
-      "message" : "Your admin email address :"      
+      "message" : "Your admin email address :"
+    }
+  ],
+
+  "installPluginsQuestion" : [
+    {
+      "type" : "confirm",
+      "name" : "installPlugins",
+      "message" : "Do you want to install some plugins ? :"
     }
   ]
 }

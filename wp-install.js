@@ -133,6 +133,14 @@ var WPInstaller = Class({
         self.alert('error', err);
       } else {
         self.alert('success', info);
+
+        inquirer.prompt(self.getConfig('installPluginsQuestion'), function(answers){
+          if (answers.installPlugins === true) {
+            self.selectPlugins();
+          } else {
+            self.alert('success', 'Your installation is finished, thanks !');
+          }
+        });
       }
     });
   },
@@ -178,4 +186,4 @@ var WPInstaller = Class({
   }
 });
 
-var app = new WPInstaller(config);
+//var app = new WPInstaller(config);
