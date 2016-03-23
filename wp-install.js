@@ -1,9 +1,10 @@
 var config  = require('./config.json'),
     Class   = require('js-class'),
-    prompt  = require('prompt'),
     colors  = require('colors/safe'),
     mkdirp  = require('mkdirp'),
     WP      = require('wp-cli');
+
+
 
 var WPInstaller = Class({
 
@@ -185,4 +186,4 @@ var WPInstaller = Class({
   }
 });
 
-var app = new WPInstaller(config);
+//var app = new WPInstaller(config);
