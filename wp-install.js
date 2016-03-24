@@ -15,11 +15,10 @@ var WPInstaller = Class({
   constructor: function (config) {
     this.config = config;
     this.wp = null;
+    this.directory = null;
 
-    //this.welcome();
-    //this.init();
-
-    this.selectPlugins();
+    this.welcome();
+    this.init();
   },
 
   /**
@@ -55,6 +54,7 @@ var WPInstaller = Class({
       }
       else {
         self.alert('success', 'Directory ' + answers.directory + ' successfully created.');
+        self.directory = answers.directory;
 
         WP.discover({ path: answers.directory },function(WP){
           self.setWP(WP);
@@ -136,15 +136,15 @@ var WPInstaller = Class({
         self.alert('error', err);
       } else {
         self.alert('success', info);
-
-        inquirer.prompt(self.getConfig('installPluginsQuestion'), function(answers){
-          if (answers.installPlugins === true) {
-            self.selectPlugins();
-          } else {
-            self.alert('success', 'Your installation is finished, thanks !');
-          }
-        });
       }
+
+      inquirer.prompt(self.getConfig('installPluginsQuestion'), function(answers){
+        if (answers.installPlugins === true) {
+          self.selectPlugins();
+        } else {
+          self.alert('success', 'Your installation is finished, thanks !');
+        }
+      });
     });
   },
 
@@ -152,8 +152,16 @@ var WPInstaller = Class({
     var self = this;
 
     inquirer.prompt(self.getConfig('installPluginsList'), function(answers){
-      _.each(answers.pluginsList, function(){
-        
+      _.each(answers.pluginsList, function(plugin){
+
+          self.getWP().plugin.install(plugin, '--path="' + self.directory + '"', function(err, info){
+            if (err) {
+              self.alert('error', err);
+            } else {
+              self.alert('success', info);
+            }
+          });
+
       });
     });
   },
