@@ -1,4 +1,5 @@
 var config    = require('./config.json'),
+    async     = require('async'),
     _         = require('underscore'),
     Class     = require('js-class'),
     inquirer  = require('inquirer'),
@@ -16,6 +17,7 @@ var WPInstaller = Class({
     this.config = config;
     this.wp = null;
     this.directory = null;
+    this.downloadedPlugins = [];
 
     this.welcome();
     this.init();
@@ -138,11 +140,11 @@ var WPInstaller = Class({
         self.alert('success', info);
       }
 
+      self.alert('success', 'Your installation is finished, thanks !');
+
       inquirer.prompt(self.getConfig('installPluginsQuestion'), function(answers){
         if (answers.installPlugins === true) {
           self.selectPlugins();
-        } else {
-          self.alert('success', 'Your installation is finished, thanks !');
         }
       });
     });
@@ -152,17 +154,70 @@ var WPInstaller = Class({
     var self = this;
 
     inquirer.prompt(self.getConfig('installPluginsList'), function(answers){
-      _.each(answers.pluginsList, function(plugin){
 
-          self.getWP().plugin.install(plugin, '--path="' + self.directory + '"', function(err, info){
-            if (err) {
-              self.alert('error', err);
-            } else {
-              self.alert('success', info);
-            }
-          });
+      async.each(answers.pluginsList, function(plugin, callback) {
 
+        self.getWP().plugin.install(plugin, { "path" : self.directory }, function(err, info){
+
+          if (err) {
+            self.alert('error', err);
+          } else {
+            self.alert('success', info);
+          }
+
+          callback();
+        });
+
+      }, function(err) {
+        if (err) {
+          self.alert('error', err);
+        } else {
+          self.askPluginsActivation();
+        }
       });
+    });
+  },
+
+  askPluginsActivation: function() {
+    var self = this;
+
+    inquirer.prompt(self.getConfig('askPluginsActivation'), function(answers){
+
+      if (answers.askPluginsActivation === true) {
+        self.getWP().plugin.list({ "status" : "inactive", "path" : self.directory}, function(err, plugins){
+          if (err) {
+            self.alert('error', err);
+          } else {
+            _.each(plugins, function(plugin) {
+              self.downloadedPlugins.push(plugin.name);
+            });
+
+            var pluginsChoice = _.extend(
+              self.getConfig('pluginsChoice')[0],
+              { "choices" : self.downloadedPlugins }
+            );
+
+            inquirer.prompt(pluginsChoice, function(answers){
+              self.activatePlugin(answers.pluginsChoice);
+            });
+
+          }
+
+        });
+      }
+
+    });
+  },
+
+  activatePlugin: function(plugin) {
+    var self = this;
+
+    self.getWP().plugin.activate(plugin, { "path" : self.directory }, function(err, info) {
+      if (err) {
+        self.alert('error', err);
+      } else {
+        self.alert('success', info);
+      }
     });
   },
 

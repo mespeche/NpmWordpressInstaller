@@ -94,5 +94,21 @@
       "message" : "Select wich plugin you want to install :",
       "choices" : ["wordpress-seo", "fakerpress"]
     }
+  ],
+
+  "askPluginsActivation" : [
+    {
+      "type" : "confirm",
+      "name" : "activatePlugins",
+      "message" : "Do you want to activate installed plugins ? :"
+    }
+  ],
+
+  "pluginsChoice" : [
+    {
+      "type" : "checkbox",
+      "name" : "pluginsChoice",
+      "message" : "Select plugins to activate :"
+    }
   ]
 }
