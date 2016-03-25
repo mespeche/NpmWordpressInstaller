@@ -45,7 +45,7 @@ var WPInstaller = Class({
 
   /**
   * Create the new project folder & call WP download
-  * @var result Result of prompt answers
+  * @var answers Result of prompt answers
   */
   createFolder: function(answers) {
     var self = this;
@@ -68,7 +68,7 @@ var WPInstaller = Class({
 
   /**
   * Download the WP package
-  * @var options Result of prompt answers
+  * @var answers Result of prompt answers
   */
   download: function(answers) {
     var self = this;
@@ -89,7 +89,7 @@ var WPInstaller = Class({
 
   /**
   * Create the wp-config.php file
-  * @var options Result of prompt answers
+  * @var answers Result of prompt answers
   */
   configure: function(answers) {
     var self = this;
@@ -127,8 +127,8 @@ var WPInstaller = Class({
   },
 
   /**
-  * Create the admin account
-  * @var options Result of prompt answers
+  * Create the admin account & ask if you want to install plugins
+  * @var answers Result of prompt answers
   */
   install: function(answers) {
     var self = this;
@@ -150,6 +150,9 @@ var WPInstaller = Class({
     });
   },
 
+  /**
+  * Download selected plugins
+  */
   selectPlugins: function() {
     var self = this;
 
@@ -178,6 +181,9 @@ var WPInstaller = Class({
     });
   },
 
+  /**
+   * Ask if you want to activate plugins
+   */
   askPluginsActivation: function() {
     var self = this;
 
@@ -209,6 +215,10 @@ var WPInstaller = Class({
     });
   },
 
+  /**
+   * Activate plugin
+   * @var plugin Plugin slug
+   */
   activatePlugin: function(plugin) {
     var self = this;
 
