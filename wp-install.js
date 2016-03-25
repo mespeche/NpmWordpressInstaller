@@ -183,7 +183,7 @@ var WPInstaller = Class({
 
     inquirer.prompt(self.getConfig('askPluginsActivation'), function(answers){
 
-      if (answers.askPluginsActivation === true) {
+      if (answers.activatePlugins === true) {
         self.getWP().plugin.list({ "status" : "inactive", "path" : self.directory}, function(err, plugins){
           if (err) {
             self.alert('error', err);
