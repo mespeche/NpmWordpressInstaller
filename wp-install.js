@@ -1,4 +1,6 @@
 var config    = require('./config.json'),
+    async     = require('async'),
+    _         = require('underscore'),
     Class     = require('js-class'),
     inquirer  = require('inquirer'),
     colors    = require('colors/safe'),
@@ -14,6 +16,8 @@ var WPInstaller = Class({
   constructor: function (config) {
     this.config = config;
     this.wp = null;
+    this.directory = null;
+    this.downloadedPlugins = [];
 
     this.welcome();
     this.init();
@@ -41,7 +45,7 @@ var WPInstaller = Class({
 
   /**
   * Create the new project folder & call WP download
-  * @var result Result of prompt answers
+  * @var answers Result of prompt answers
   */
   createFolder: function(answers) {
     var self = this;
@@ -52,6 +56,7 @@ var WPInstaller = Class({
       }
       else {
         self.alert('success', 'Directory ' + answers.directory + ' successfully created.');
+        self.directory = answers.directory;
 
         WP.discover({ path: answers.directory },function(WP){
           self.setWP(WP);
@@ -63,7 +68,7 @@ var WPInstaller = Class({
 
   /**
   * Download the WP package
-  * @var options Result of prompt answers
+  * @var answers Result of prompt answers
   */
   download: function(answers) {
     var self = this;
@@ -84,7 +89,7 @@ var WPInstaller = Class({
 
   /**
   * Create the wp-config.php file
-  * @var options Result of prompt answers
+  * @var answers Result of prompt answers
   */
   configure: function(answers) {
     var self = this;
@@ -122,13 +127,102 @@ var WPInstaller = Class({
   },
 
   /**
-  * Create the admin account
-  * @var options Result of prompt answers
+  * Create the admin account & ask if you want to install plugins
+  * @var answers Result of prompt answers
   */
   install: function(answers) {
     var self = this;
 
     this.getWP().core.install(answers, function(err, info){
+      if (err) {
+        self.alert('error', err);
+      } else {
+        self.alert('success', info);
+      }
+
+      self.alert('success', 'Your installation is finished, thanks !');
+
+      inquirer.prompt(self.getConfig('installPluginsQuestion'), function(answers){
+        if (answers.installPlugins === true) {
+          self.selectPlugins();
+        }
+      });
+    });
+  },
+
+  /**
+  * Download selected plugins
+  */
+  selectPlugins: function() {
+    var self = this;
+
+    inquirer.prompt(self.getConfig('installPluginsList'), function(answers){
+
+      async.each(answers.pluginsList, function(plugin, callback) {
+
+        self.getWP().plugin.install(plugin, { "path" : self.directory }, function(err, info){
+
+          if (err) {
+            self.alert('error', err);
+          } else {
+            self.alert('success', info);
+          }
+
+          callback();
+        });
+
+      }, function(err) {
+        if (err) {
+          self.alert('error', err);
+        } else {
+          self.askPluginsActivation();
+        }
+      });
+    });
+  },
+
+  /**
+   * Ask if you want to activate plugins
+   */
+  askPluginsActivation: function() {
+    var self = this;
+
+    inquirer.prompt(self.getConfig('askPluginsActivation'), function(answers){
+
+      if (answers.activatePlugins === true) {
+        self.getWP().plugin.list({ "status" : "inactive", "path" : self.directory}, function(err, plugins){
+          if (err) {
+            self.alert('error', err);
+          } else {
+            _.each(plugins, function(plugin) {
+              self.downloadedPlugins.push(plugin.name);
+            });
+
+            var pluginsChoice = _.extend(
+              self.getConfig('pluginsChoice')[0],
+              { "choices" : self.downloadedPlugins }
+            );
+
+            inquirer.prompt(pluginsChoice, function(answers){
+              self.activatePlugin(answers.pluginsChoice);
+            });
+
+          }
+
+        });
+      }
+
+    });
+  },
+
+  /**
+   * Activate plugin
+   * @var plugin Plugin slug
+   */
+  activatePlugin: function(plugin) {
+    var self = this;
+
+    self.getWP().plugin.activate(plugin, { "path" : self.directory }, function(err, info) {
       if (err) {
         self.alert('error', err);
       } else {

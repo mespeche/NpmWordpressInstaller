@@ -75,7 +75,40 @@
     {
       "type" : "input",
       "name" : "admin_email",
-      "message" : "Your admin email address :"      
+      "message" : "Your admin email address :"
+    }
+  ],
+
+  "installPluginsQuestion" : [
+    {
+      "type" : "confirm",
+      "name" : "installPlugins",
+      "message" : "Do you want to install some plugins ? :"
+    }
+  ],
+
+  "installPluginsList" : [
+    {
+      "type" : "checkbox",
+      "name" : "pluginsList",
+      "message" : "Select wich plugin you want to install :",
+      "choices" : ["wordpress-seo", "fakerpress"]
+    }
+  ],
+
+  "askPluginsActivation" : [
+    {
+      "type" : "confirm",
+      "name" : "activatePlugins",
+      "message" : "Do you want to activate installed plugins ? :"
+    }
+  ],
+
+  "pluginsChoice" : [
+    {
+      "type" : "checkbox",
+      "name" : "pluginsChoice",
+      "message" : "Select plugins to activate :"
     }
   ]
 }
